@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0t0KEN · 零 token 确定性执行引擎</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { margin: 0; padding: 0; background: #f5f7fa; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+    color: #1a2332; line-height: 1.75; font-size: 16px;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* language switch */
+  .langbar { background: #0b1f3f; color: #8090a5; text-align: right; font-size: 13px; padding: 8px 24px; }
+  .langbar a { color: #7db4ff; text-decoration: none; margin-left: 12px; font-weight: 700; }
+  .langbar a.cur { color: #fff; border-bottom: 2px solid #0f6fff; padding-bottom: 2px; }
+
+  /* ═══ HERO ═══ */
+  .hero {
+    background: linear-gradient(135deg, #0b1f3f 0%, #123a7a 50%, #0f6fff 130%);
+    color: #fff; padding: 80px 0 60px; text-align: center;
+  }
+  .hero h1 { font-size: 42px; font-weight: 800; letter-spacing: 1px; margin-bottom: 16px; }
+  .hero .sub { font-size: 20px; opacity: .92; max-width: 640px; margin: 0 auto 32px; }
+  .hero .stats { display: flex; justify-content: center; gap: 40px; margin-top: 40px; flex-wrap: wrap; }
+  .hero .stat { text-align: center; }
+  .hero .stat .num { font-size: 32px; font-weight: 800; color: #7db4ff; }
+  .hero .stat .lbl { font-size: 13px; opacity: .8; }
+  .hero .cta {
+    display: inline-block; background: #0a8f4d; color: #fff; border-radius: 8px;
+    padding: 14px 40px; font-size: 18px; font-weight: 700; margin-top: 36px;
+    text-decoration: none; box-shadow: 0 4px 16px rgba(10,143,77,.4);
+  }
+  .hero .cta:hover { background: #0a7a42; }
+
+  /* ═══ SECTIONS ═══ */
+  section { padding: 64px 0; }
+  section.alt { background: #fff; }
+  h2 { font-size: 28px; color: #0b1f3f; text-align: center; margin-bottom: 40px; }
+  h2 .accent { color: #0f6fff; }
+
+  /* ═══ PROOF ═══ */
+  .proof-box {
+    background: #1a2332; border-radius: 12px; padding: 24px 32px;
+    font-family: Consolas, monospace; font-size: 14px; color: #d7e3f4;
+    max-width: 720px; margin: 0 auto; line-height: 1.8;
+    border: 1px solid #2a3a4a;
+  }
+  .proof-box .hd { color: #0a8f4d; font-weight: 700; }
+  .proof-box .time { color: #8090a5; }
+  .proof-box .task { color: #7db4ff; }
+  .proof-box .ok { color: #0a8f4d; }
+
+  /* ═══ WHAT ═══ */
+  .what-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 32px; }
+  .what-card {
+    background: #fafcfe; border: 1px solid #dbe2ec; border-radius: 10px;
+    padding: 24px; text-align: center;
+  }
+  .what-card .icon { font-size: 36px; margin-bottom: 12px; }
+  .what-card h3 { font-size: 16px; color: #123a7a; margin-bottom: 8px; }
+  .what-card p { font-size: 14px; color: #5a6a80; }
+
+  .layers { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 32px; }
+  .layer {
+    background: #eaf2ff; border-radius: 8px; padding: 16px 12px; text-align: center;
+    border-top: 3px solid #0f6fff;
+  }
+  .layer b { display: block; font-size: 15px; color: #0b1f3f; margin-bottom: 4px; }
+  .layer span { font-size: 12px; color: #5a6a80; }
+
+  /* ═══ WHY NOW ═══ */
+  .timeline-v { max-width: 680px; margin: 0 auto; }
+  .tl-item { display: flex; gap: 20px; padding: 12px 0; align-items: flex-start; }
+  .tl-dot {
+    flex: 0 0 14px; height: 14px; border-radius: 50%; background: #dbe2ec;
+    margin-top: 6px; position: relative;
+  }
+  .tl-dot.hot { background: #0f6fff; box-shadow: 0 0 10px rgba(15,111,255,.5); }
+  .tl-content { flex: 1; }
+  .tl-content b { color: #1a2332; font-size: 15px; }
+  .tl-content span { display: block; color: #5a6a80; font-size: 13px; }
+
+  /* ═══ PHILOSOPHY ═══ */
+  .zero-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 32px; }
+  .zero-card {
+    background: #fff; border: 1px solid #dbe2ec; border-left: 4px solid #0f6fff;
+    border-radius: 0 10px 10px 0; padding: 20px;
+  }
+  .zero-card b { display: block; color: #0f6fff; font-size: 22px; margin-bottom: 6px; }
+  .zero-card h4 { font-size: 15px; color: #1a2332; margin-bottom: 6px; }
+  .zero-card p { font-size: 13px; color: #5a6a80; }
+
+  /* ═══ MARKET ═══ */
+  .market-numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+  .m-num {
+    background: #fafcfe; border: 1px solid #dbe2ec; border-radius: 10px;
+    padding: 24px 16px; text-align: center;
+  }
+  .m-num .v { font-size: 26px; font-weight: 800; color: #0f6fff; }
+  .m-num .t { font-size: 13px; color: #5a6a80; margin-top: 4px; }
+
+  /* ═══ ASK ═══ */
+  .ask-box {
+    background: linear-gradient(135deg, #0b1f3f, #123a7a);
+    border-radius: 12px; padding: 48px; text-align: center; color: #fff;
+    max-width: 640px; margin: 0 auto;
+  }
+  .ask-box h3 { font-size: 24px; margin-bottom: 16px; }
+  .ask-box .amount { font-size: 36px; font-weight: 800; color: #7db4ff; }
+  .ask-box .pct { font-size: 20px; opacity: .9; margin: 8px 0 24px; }
+  .ask-box .contact {
+    display: inline-block; background: #0a8f4d; border-radius: 8px;
+    padding: 12px 36px; font-size: 16px; font-weight: 700; text-decoration: none; color: #fff;
+  }
+
+  /* ═══ FOOTER ═══ */
+  footer { background: #0b1f3f; color: #8090a5; padding: 40px 0; text-align: center; font-size: 13px; }
+  footer a { color: #7db4ff; text-decoration: none; margin: 0 8px; }
+  footer .verdict { color: #d7e3f4; font-size: 15px; max-width: 640px; margin: 0 auto 20px; line-height: 1.8; }
+
+  @media (max-width: 768px) {
+    .what-grid, .zero-grid, .market-numbers { grid-template-columns: 1fr; }
+    .layers { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 28px; }
+    .hero .stats { flex-direction: column; gap: 16px; }
+  }
+
+  @media print {
+    .langbar { display: none; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: #fff; font-size: 13px; }
+    .hero { padding: 48px 0 36px; }
+    section { padding: 36px 0; }
+    .what-card, .zero-card, .m-num, .layer, .tl-item, .proof-box, .ask-box { break-inside: avoid; page-break-inside: avoid; }
+    h2 { break-after: avoid; page-break-after: avoid; }
+    .layers, .what-grid, .zero-grid { break-inside: avoid; page-break-inside: avoid; }
+    .timeline-v { break-inside: avoid; page-break-inside: avoid; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="langbar"><a href="index.html">EN</a><a class="cur">中文</a></div>
+
+  <!-- ═══ HERO ═══ -->
+  <div class="hero">
+    <div class="wrap">
+      <h1>0t0KEN</h1>
+      <p class="sub"><b>在 0t0KEN，AI 技能SKILL 可以私有化，更是你的赚钱机器</b><br>—— 内容私有，能力公用，收益归你。<br>把「会做」变成资产，把「被用」变成收入。</p>
+      <div class="stats">
+        <div class="stat"><div class="num">450+</div><div class="lbl">内部测试任务</div></div>
+        <div class="stat"><div class="num">1,574</div><div class="lbl">任务/分钟</div></div>
+        <div class="stat"><div class="num">100%</div><div class="lbl">确定性</div></div>
+        <div class="stat"><div class="num">0</div><div class="lbl">边际成本</div></div>
+      </div>
+      <p style="font-size:12px;opacity:.75;margin-top:16px">内部测试数据截至 2026-08-26 · audit.log 四通道可查证</p>
+      <br>
+      <a class="cta" href="#ask">种子轮 150 万 · 出让 15%</a>
+    </div>
+  </div>
+
+  <!-- ═══ PROOF ═══ -->
+  <section>
+    <div class="wrap">
+      <h2><span class="accent">真实测试实录</span>，不是 PPT</h2>
+      <div class="proof-box">
+        <span class="hd">【任务完成】早班全流程</span><br>
+        <span class="time">完成时间：2026/08/23 09:05 ｜ 触发：定时计划</span><br>
+        <span class="task">任务1/3：cdr-copy-add-rename</span> → <span class="ok">✅ 完成 | 耗时 2.4s | 新增 3 个文件</span><br>
+        <span class="task">任务2/3：cdr-convert-curves-save</span> → <span class="ok">✅ 完成 | 耗时 94.9s | 更新 3 个文件</span><br>
+        <span class="task">任务3/3：cdr-export-pdf</span> → <span class="ok">✅ 完成 | 耗时 90.2s | 新增 3 个文件</span><br>
+        📎 结果文件已就绪（内网快速通道，0.3 秒送达）<br>
+        <span style="color:#8090a5">— 这是周日早上 9:05，无人在场。活了三分钟，交了九个文件。</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WHAT ═══ -->
+  <section class="alt">
+    <div class="wrap">
+      <h2>它是什么：<span class="accent">确定性执行引擎</span></h2>
+      <div class="what-grid">
+        <div class="what-card">
+          <div class="icon">💬</div>
+          <h3>三通道触发</h3>
+          <p>企微群一句话 / 局域网控制台 / 定时引擎<br>7×24 无人值守</p>
+        </div>
+        <div class="what-card">
+          <div class="icon">⚙️</div>
+          <h3>四类执行</h3>
+          <p>单技能 / 连跑流水线 / 计划 / 定时<br>连跑：一条消息 10 秒编排</p>
+        </div>
+        <div class="what-card">
+          <div class="icon">📦</div>
+          <h3>交付闭环</h3>
+          <p>执行→打包→按目录分组→自动送达<br>耗时＋文件清单＋审计留痕</p>
+        </div>
+      </div>
+      <div class="layers">
+        <div class="layer"><b>速度</b><span>3 分钟 vs 人工 15 分钟</span></div>
+        <div class="layer"><b>零参与</b><span>187.5 秒里 0 秒人工</span></div>
+        <div class="layer"><b>时序</b><span>人到岗前活已干完</span></div>
+        <div class="layer"><b>可测量</b><span>每条消息自带秒表</span></div>
+        <div class="layer"><b>零边际</b><span>×10 不加人</span></div>
+      </div>
+      <p style="text-align:center;margin-top:28px;background:#e8f7ef;border-left:4px solid #0a8f4d;border-radius:0 8px 8px 0;padding:14px 20px;color:#12683d;font-size:15px">
+        <b>0t0KEN 可以做到：仅在造技能SKILL 时付一次 TOKEN 费用，跑技能SKILL 永远不花费 TOKEN。</b><br>
+        <span style="font-size:13px;color:#33465e">对比：一般 AI 用法中，AI 每反复调用一次技能SKILL 就烧一次 token——干一万次，烧一万次。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ WHY NOW ═══ -->
+  <section>
+    <div class="wrap">
+      <h2>为什么是现在：<span class="accent">SaaS 在死，i4SaaS 在长</span></h2>
+      <div class="timeline-v">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content"><b>2008 · App Store</b><span>任何开发者都能卖 App</span></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content"><b>2005 · YouTube</b><span>任何创作者都能卖内容</span></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content"><b>2000s · SaaS</b><span>公司能锁住代码接单——但只有公司</span></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content"><b>2026 · OPC 浪潮</b><span>中国一人公司超 1,600 万家（占企业 27.4%，截至 2025-06）——等一台生产基建</span></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot hot"></div>
+          <div class="tl-content">
+            <b style="color:#0f6fff">2026，0t0KEN 定义 i4SaaS，开启个人级 SaaS 时代</b>
+            <span style="color:#0f6fff;font-weight:600">任何一个人都能锁住代码接单——代码不出你的电脑，价值流向全世界</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PHILOSOPHY ═══ -->
+  <section class="alt">
+    <div class="wrap">
+      <h2>零的哲学：<span class="accent">消除优于管理</span></h2>
+      <div class="zero-grid">
+        <div class="zero-card">
+          <b>0</b>
+          <h4>token</h4>
+          <p>执行链上没有模型——没有概率、没有账单</p>
+        </div>
+        <div class="zero-card">
+          <b>0</b>
+          <h4>公网 IP</h4>
+          <p>长连接主动出站——没有攻击面</p>
+        </div>
+        <div class="zero-card">
+          <b>0</b>
+          <h4>分发</h4>
+          <p>代码永远不出你的机器——没有 IP 风险</p>
+        </div>
+      </div>
+      <div class="zero-grid" style="margin-top:16px">
+        <div class="zero-card">
+          <b>0</b>
+          <h4>外联</h4>
+          <p>仅局域网模式零联网——数据零出域</p>
+        </div>
+        <div class="zero-card">
+          <b>0</b>
+          <h4>服务器</h4>
+          <p>个人电脑即服务器——没有基础设施</p>
+        </div>
+        <div class="zero-card">
+          <b>0</b>
+          <h4>模型</h4>
+          <p>确定性查表执行——100% 可靠</p>
+        </div>
+      </div>
+      <div class="zero-card" style="margin-top:16px;border-left-color:#0a8f4d;background:#f0faf5">
+        <b style="color:#0a8f4d">0</b>
+        <h4>暴露（第七个零，2026-08 新增）</h4>
+        <p>消费者数据全链路零可见——与 0 分发对称：<b>零分发保护提供者，零暴露保护消费者——双向零知识</b>（架构层概念，区别于密码学 ZK 证明）。隐私分级 P0~P4，隐私即服务：P2 +20% ~ P4 +100%。</p>
+      </div>
+      <p style="text-align:center;margin-top:24px;color:#5a6a80;font-size:15px">
+        <b>事实比赌注强。保护一扇门，不如让墙没有门。</b>
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ MARKET ═══ -->
+  <section>
+    <div class="wrap">
+      <h2>市场：<span class="accent">OPC 时代的生产基建</span></h2>
+      <div class="market-numbers">
+        <div class="m-num"><div class="v">1,600 万</div><div class="t">中国一人公司（TAM · 截至 2025-06）</div></div>
+        <div class="m-num"><div class="v">27.4%</div><div class="t">占全国企业总量（新华网 2026-07 报道）</div></div>
+        <div class="m-num"><div class="v">3,040 万</div><div class="t">美国个体经营者（2024）</div></div>
+        <div class="m-num"><div class="v">1.8 万</div><div class="t">SOM 楔子层：印刷设计部（2026-08-22 调研）</div></div>
+      </div>
+      <p style="text-align:center;margin-top:24px;color:#5a6a80">
+        新锚＝OPC 时代层：AI 大势让「超级个体」成为 2026 当红叙事，杭州/深圳/苏州/广州竞逐建生态（第一财经 2026）——浪潮归时代，生产基建归 0t0KEN。<br>
+        楔子＝印刷设计部 1.8 万家：影刀（3 万客户、C 轮 1 亿美元）上移中大型客户，SMB 轻量自动化空窗——0t0KEN 三年 320 家，仅占 1.8%。<br>
+        景气背景：中国 RPA+AI 市场 70 亿（IDC 2026E）。
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ ASK ═══ -->
+  <section class="alt" id="ask">
+    <div class="wrap">
+      <div class="ask-box">
+        <h3>种子轮</h3>
+        <div class="amount">150 万 RMB</div>
+        <div class="pct">出让 15% · 投后 1000 万</div>
+        <p style="opacity:.85;font-size:15px;margin-bottom:24px">
+          产品已跑起来 · 市场已空出来 · 供给侧已闭合 · 叙事已完备<br>
+          唯一还没发生的，是第一笔外部收入
+        </p>
+        <a class="contact" href="mailto:chenfenhua@0t0ken.com">📩 联系陈奋华</a>
+        <p style="font-size:11px;opacity:.55;margin-top:18px">本页仅供参考，不构成任何证券要约或要约邀请。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="wrap">
+      <p class="verdict">
+        这不是"要不要投"的问题，是"现在投还是以后贵十倍投"的问题。<br>
+        <b>你投的不是 150 万，是一张 i4SaaS 品类头等舱的登机牌。</b>
+      </p>
+      <p style="opacity:.7">
+        一页 BP · 十一张 BP 补页 · 十三篇文章 · 哲学四部曲 · 测试审计（资料备索）
+      </p>
+      <p style="margin-top:12px">
+        0t0KEN · i4SaaS 的定义者与第一个平台 · 陈奋华 © 2026 · 本页更新 2026-08-29
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

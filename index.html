@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0t0KEN · Zero-Token Deterministic Execution Engine</title>
+<meta name="description" content="0t0KEN is a zero-model automation engine: no LLM, no token cost, 100% deterministic execution. Definer of i4SaaS — the era of Personal SaaS.">
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { margin: 0; padding: 0; background: #f5f7fa; }
+  body {
+    font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+    color: #1a2332; line-height: 1.7; font-size: 16px;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* language switch */
+  .langbar { background: #0b1f3f; color: #8090a5; text-align: right; font-size: 13px; padding: 8px 24px; }
+  .langbar a { color: #7db4ff; text-decoration: none; margin-left: 12px; font-weight: 700; }
+  .langbar a.cur { color: #fff; border-bottom: 2px solid #0f6fff; padding-bottom: 2px; }
+
+  /* ═══ HERO ═══ */
+  .hero {
+    background: linear-gradient(135deg, #0b1f3f 0%, #123a7a 50%, #0f6fff 130%);
+    color: #fff; padding: 72px 0 56px; text-align: center;
+  }
+  .hero h1 { font-size: 42px; font-weight: 800; letter-spacing: 1px; margin-bottom: 16px; }
+  .hero .sub { font-size: 19px; opacity: .92; max-width: 680px; margin: 0 auto 32px; }
+  .hero .stats { display: flex; justify-content: center; gap: 40px; margin-top: 40px; flex-wrap: wrap; }
+  .hero .stat { text-align: center; }
+  .hero .stat .num { font-size: 32px; font-weight: 800; color: #7db4ff; }
+  .hero .stat .lbl { font-size: 13px; opacity: .8; }
+  .hero .cta {
+    display: inline-block; background: #0a8f4d; color: #fff; border-radius: 8px;
+    padding: 14px 40px; font-size: 18px; font-weight: 700; margin-top: 36px;
+    text-decoration: none; box-shadow: 0 4px 16px rgba(10,143,77,.4);
+  }
+  .hero .cta:hover { background: #0a7a42; }
+
+  /* ═══ SECTIONS ═══ */
+  section { padding: 64px 0; }
+  section.alt { background: #fff; }
+  h2 { font-size: 28px; color: #0b1f3f; text-align: center; margin-bottom: 40px; }
+  h2 .accent { color: #0f6fff; }
+
+  /* ═══ PROOF ═══ */
+  .proof-box {
+    background: #1a2332; border-radius: 12px; padding: 24px 32px;
+    font-family: Consolas, monospace; font-size: 14px; color: #d7e3f4;
+    max-width: 720px; margin: 0 auto; line-height: 1.8;
+    border: 1px solid #2a3a4a;
+  }
+  .proof-box .hd { color: #0a8f4d; font-weight: 700; }
+  .proof-box .time { color: #8090a5; }
+  .proof-box .task { color: #7db4ff; }
+  .proof-box .ok { color: #0a8f4d; }
+
+  /* ═══ WHAT ═══ */
+  .what-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 32px; }
+  .what-card {
+    background: #fafcfe; border: 1px solid #dbe2ec; border-radius: 10px;
+    padding: 24px; text-align: center;
+  }
+  .what-card .icon { font-size: 36px; margin-bottom: 12px; }
+  .what-card h3 { font-size: 16px; color: #123a7a; margin-bottom: 8px; }
+  .what-card p { font-size: 14px; color: #5a6a80; }
+
+  .layers { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 32px; }
+  .layer {
+    background: #eaf2ff; border-radius: 8px; padding: 16px 12px; text-align: center;
+    border-top: 3px solid #0f6fff;
+  }
+  .layer b { display: block; font-size: 15px; color: #0b1f3f; margin-bottom: 4px; }
+  .layer span { font-size: 12px; color: #5a6a80; }
+
+  /* ═══ WHY NOW ═══ */
+  .timeline-v { max-width: 680px; margin: 0 auto; }
+  .tl-item { display: flex; gap: 20px; padding: 12px 0; align-items: flex-start; }
+  .tl-dot {
+    flex: 0 0 14px; height: 14px; border-radius: 50%; background: #dbe2ec;
+    margin-top: 6px; position: relative;
+  }
+  .tl-dot.hot { background: #0f6fff; box-shadow: 0 0 10px rgba(15,111,255,.5); }
+  .tl-content { flex: 1; }
+  .tl-content b { color: #1a2332; font-size: 15px; }
+  .tl-content span { display: block; color: #5a6a80; font-size: 13px; }
+
+  /* ═══ PHILOSOPHY ═══ */
+  .zero-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 32px; }
+  .zero-card {
+    background: #fff; border: 1px solid #dbe2ec; border-left: 4px solid #0f6fff;
+    border-radius: 0 10px 10px 0; padding: 20px;
+  }
+  .zero-card b { display: block; color: #0f6fff; font-size: 22px; margin-bottom: 6px; }
+  .zero-card h4 { font-size: 15px; color: #1a2332; margin-bottom: 6px; }
+  .zero-card p { font-size: 13px; color: #5a6a80; }
+
+  /* ═══ MARKET ═══ */
+  .market-numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+  .m-num {
+    background: #fafcfe; border: 1px solid #dbe2ec; border-radius: 10px;
+    padding: 24px 16px; text-align: center;
+  }
+  .m-num .v { font-size: 26px; font-weight: 800; color: #0f6fff; }
+  .m-num .t { font-size: 13px; color: #5a6a80; margin-top: 4px; }
+
+  /* ═══ ASK ═══ */
+  .ask-box {
+    background: linear-gradient(135deg, #0b1f3f, #123a7a);
+    border-radius: 12px; padding: 48px; text-align: center; color: #fff;
+    max-width: 640px; margin: 0 auto;
+  }
+  .ask-box h3 { font-size: 24px; margin-bottom: 16px; }
+  .ask-box .amount { font-size: 36px; font-weight: 800; color: #7db4ff; }
+  .ask-box .pct { font-size: 20px; opacity: .9; margin: 8px 0 24px; }
+  .ask-box .contact {
+    display: inline-block; background: #0a8f4d; border-radius: 8px;
+    padding: 12px 36px; font-size: 16px; font-weight: 700; text-decoration: none; color: #fff;
+  }
+  .ask-box .disclaimer { font-size: 11px; opacity: .55; margin-top: 18px; }
+
+  /* ═══ FOOTER ═══ */
+  footer { background: #0b1f3f; color: #8090a5; padding: 40px 0; text-align: center; font-size: 13px; }
+  footer .verdict { color: #d7e3f4; font-size: 15px; max-width: 640px; margin: 0 auto 20px; line-height: 1.8; }
+
+  @media (max-width: 768px) {
+    .what-grid, .zero-grid, .market-numbers { grid-template-columns: 1fr; }
+    .layers { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 28px; }
+    .hero .stats { flex-direction: column; gap: 16px; }
+  }
+
+  @media print {
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: #fff; font-size: 13px; }
+    .langbar { display: none; }
+    .hero { padding: 48px 0 36px; }
+    section { padding: 36px 0; }
+    .what-card, .zero-card, .m-num, .layer, .tl-item, .proof-box, .ask-box { break-inside: avoid; page-break-inside: avoid; }
+    h2 { break-after: avoid; page-break-after: avoid; }
+    .layers, .what-grid, .zero-grid { break-inside: avoid; page-break-inside: avoid; }
+    .timeline-v { break-inside: avoid; page-break-inside: avoid; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="langbar"><a class="cur">EN</a><a href="zh.html">中文</a></div>
+
+  <!-- ═══ HERO ═══ -->
+  <div class="hero">
+    <div class="wrap">
+      <h1>0t0KEN</h1>
+      <p class="sub"><b>At 0t0KEN, AI-built Skills become your private assets — and your money-making machines.</b><br>
+      — Content stays private. Capability goes public. Revenue is yours.<br>
+      Turn "know-how" into an asset; turn "being used" into income.</p>
+      <div class="stats">
+        <div class="stat"><div class="num">450+</div><div class="lbl">Internal Test Tasks</div></div>
+        <div class="stat"><div class="num">1,574</div><div class="lbl">Tasks per Minute</div></div>
+        <div class="stat"><div class="num">100%</div><div class="lbl">Determinism</div></div>
+        <div class="stat"><div class="num">0</div><div class="lbl">Marginal Cost</div></div>
+      </div>
+      <p style="font-size:12px;opacity:.75;margin-top:16px">Internal test data as of 2026-08-26 · Verifiable via 4-channel audit.log</p>
+      <br>
+      <a class="cta" href="#ask">Seed Round · ¥1.5M · 15%</a>
+    </div>
+  </div>
+
+  <!-- ═══ PROOF ═══ -->
+  <section>
+    <div class="wrap">
+      <h2><span class="accent">Real Test Logs</span>, Not Slides</h2>
+      <div class="proof-box">
+        <span class="hd">[TASK COMPLETE] Morning-Shift Pipeline</span><br>
+        <span class="time">Completed: 2026/08/23 09:05 | Trigger: scheduled plan</span><br>
+        <span class="task">Task 1/3: cdr-copy-add-rename</span> → <span class="ok">✅ Done | 2.4s | 3 new files</span><br>
+        <span class="task">Task 2/3: cdr-convert-curves-save</span> → <span class="ok">✅ Done | 94.9s | 3 files updated</span><br>
+        <span class="task">Task 3/3: cdr-export-pdf</span> → <span class="ok">✅ Done | 90.2s | 3 new files</span><br>
+        📎 Output files ready (LAN fast lane, 0.3s delivery)<br>
+        <span style="color:#8090a5">— Sunday morning, 9:05 AM. Nobody present. Alive for three minutes; nine files delivered. (Translated from the Chinese audit log)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WHAT ═══ -->
+  <section class="alt">
+    <div class="wrap">
+      <h2>What It Is: <span class="accent">A Deterministic Execution Engine</span></h2>
+      <div class="what-grid">
+        <div class="what-card">
+          <div class="icon">💬</div>
+          <h3>3 Trigger Channels</h3>
+          <p>One message in a WeCom group / LAN console / cron engine<br>24/7 unattended</p>
+        </div>
+        <div class="what-card">
+          <div class="icon">⚙️</div>
+          <h3>4 Execution Types</h3>
+          <p>Single skill / chained pipeline / plans / schedules<br>Chain: one message, 10-second orchestration</p>
+        </div>
+        <div class="what-card">
+          <div class="icon">📦</div>
+          <h3>Delivery Loop</h3>
+          <p>Execute → package → group by folder → auto-deliver<br>Timing + file manifest + audit trail</p>
+        </div>
+      </div>
+      <div class="layers">
+        <div class="layer"><b>Speed</b><span>3 min vs 15 min manual</span></div>
+        <div class="layer"><b>Zero touch</b><span>0s human in 187.5s</span></div>
+        <div class="layer"><b>Timing</b><span>Done before you arrive</span></div>
+        <div class="layer"><b>Measurable</b><span>Every message carries a stopwatch</span></div>
+        <div class="layer"><b>Zero marginal</b><span>×10 without hiring</span></div>
+      </div>
+      <p style="text-align:center;margin-top:28px;background:#e8f7ef;border-left:4px solid #0a8f4d;border-radius:0 8px 8px 0;padding:14px 20px;color:#12683d;font-size:15px">
+        <b>0t0KEN: you pay a token fee once — when the Skill is built. Running it never costs a token.</b><br>
+        <span style="font-size:13px;color:#33465e">Contrast: in typical AI usage, every re-invocation of a skill burns another token — 10,000 runs, 10,000 bills.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ WHY NOW ═══ -->
+  <section>
+    <div class="wrap">
+      <h2>Why Now: <span class="accent">SaaS Is Dying, i4SaaS Is Growing</span></h2>
+      <div class="timeline-v">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content"><b>2008 · App Store</b><span>Any developer can sell apps</span></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content"><b>2005 · YouTube</b><span>Any creator can sell content</span></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content"><b>2000s · SaaS</b><span>Companies can lock code and take orders — but only companies</span></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-content"><b>2026 · The OPC Wave</b><span>16M+ one-person companies in China (27.4% of all firms, as of Jun 2025) — waiting for production infrastructure</span></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot hot"></div>
+          <div class="tl-content">
+            <b style="color:#0f6fff">2026 — 0t0KEN defines i4SaaS, opening the era of Personal SaaS</b>
+            <span style="color:#0f6fff;font-weight:600">Any individual can lock code and take orders — your code never leaves your PC, value flows worldwide</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PHILOSOPHY ═══ -->
+  <section class="alt">
+    <div class="wrap">
+      <h2>The Philosophy of Zero: <span class="accent">Elimination over Management</span></h2>
+      <div class="zero-grid">
+        <div class="zero-card"><b>0</b><h4>token</h4><p>No model on the execution chain — no probability, no bills</p></div>
+        <div class="zero-card"><b>0</b><h4>public IP</h4><p>Outbound long-connection only — no attack surface</p></div>
+        <div class="zero-card"><b>0</b><h4>distribution</h4><p>Code never leaves your machine — no IP risk</p></div>
+      </div>
+      <div class="zero-grid" style="margin-top:16px">
+        <div class="zero-card"><b>0</b><h4>egress</h4><p>LAN-only mode, zero network — data never leaves the premises</p></div>
+        <div class="zero-card"><b>0</b><h4>server</h4><p>Your PC is the server — no infrastructure</p></div>
+        <div class="zero-card"><b>0</b><h4>model</h4><p>Deterministic table-lookup execution — 100% reliable</p></div>
+      </div>
+      <div class="zero-card" style="margin-top:16px;border-left-color:#0a8f4d;background:#f0faf5">
+        <b style="color:#0a8f4d">0</b>
+        <h4>exposure (the seventh zero, new in Aug 2026)</h4>
+        <p>Consumer data invisible across the whole chain — symmetric with zero distribution: <b>zero distribution protects the provider; zero exposure protects the consumer — mutual zero-knowledge</b> (an architecture-level concept, distinct from cryptographic ZK proofs). Privacy tiers P0–P4; privacy-as-a-service: P2 +20% ~ P4 +100%.</p>
+      </div>
+      <p style="text-align:center;margin-top:24px;color:#5a6a80;font-size:15px">
+        <b>Facts beat bets. Better than guarding the door — build a wall without one.</b>
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ MARKET ═══ -->
+  <section>
+    <div class="wrap">
+      <h2>Market: <span class="accent">Production Infrastructure for the OPC Era</span></h2>
+      <div class="market-numbers">
+        <div class="m-num"><div class="v">16M+</div><div class="t">One-person companies in China (TAM · as of Jun 2025)</div></div>
+        <div class="m-num"><div class="v">27.4%</div><div class="t">Share of all Chinese enterprises (Xinhua, Jul 2026)</div></div>
+        <div class="m-num"><div class="v">30.4M</div><div class="t">US solo proprietors (2024)</div></div>
+        <div class="m-num"><div class="v">18K</div><div class="t">SOM wedge: print design teams (research, Aug 2026)</div></div>
+      </div>
+      <p style="text-align:center;margin-top:24px;color:#5a6a80">
+        New anchor — the OPC era: the AI megatrend makes "super-individuals" the defining 2026 narrative (Hangzhou/Shenzhen/Suzhou/Guangzhou competing to build ecosystems, Yicai 2026). The wave belongs to the times; the production infrastructure belongs to 0t0KEN.<br>
+        Wedge — 18K print design teams: YingDao (30K customers, $100M Series C) is moving upmarket, leaving SMB lightweight automation open. 0t0KEN targets 320 customers in 3 years — just 1.8%.<br>
+        Tailwind: China RPA+AI market ¥7B (IDC, 2026E).
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ ASK ═══ -->
+  <section class="alt" id="ask">
+    <div class="wrap">
+      <div class="ask-box">
+        <h3>Seed Round</h3>
+        <div class="amount">¥1.5M RMB</div>
+        <div class="pct">15% equity · ¥10M post-money</div>
+        <p style="opacity:.85;font-size:15px;margin-bottom:24px">
+          The product runs · The market is open · The supply side is closed · The narrative is complete<br>
+          The only thing that hasn't happened yet: the first external revenue
+        </p>
+        <a class="contact" href="mailto:chenfenhua@0t0ken.com">📩 Contact Chen Fenhua</a>
+        <p class="disclaimer">For information purposes only. This is not an offer to sell, or a solicitation of an offer to buy, any securities.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="wrap">
+      <p class="verdict">
+        The question isn't whether to invest — it's now, or at 10× later.<br>
+        <b>You're not buying ¥1.5M. You're buying a first-class ticket on the i4SaaS category.</b>
+      </p>
+      <p style="opacity:.7">
+        One-Page BP · 11 BP Supplement Pages · 13 Articles · Philosophy Quartet · Test Audit Logs (available on request)
+      </p>
+      <p style="margin-top:12px">
+        0t0KEN · The definer of i4SaaS and its first platform · Chen Fenhua © 2026 · Updated Aug 29, 2026
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
