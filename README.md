@@ -1,6 +1,8 @@
 # 0t0KEN · One-Link Investor Site
 
-> 双语投资人官网（English default · 中文可选）：0t0KEN 零 token 确定性执行引擎 / Zero-token deterministic execution engine
+> 🌐 **在线访问 / Live: [0t0ken.com](https://0t0ken.com)**
+> 零 token 确定性执行引擎 / Zero-token deterministic execution engine · i4SaaS
+> 双语投资人官网（English default · 中文可选）
 
 ## 文件结构
 
@@ -23,7 +25,7 @@
 
 ## 绑定自有域名（可选，推荐）
 
-- 域名已注册：0t0ken.com（2026-08-29）
+- 域名已注册：[0t0ken.com](https://0t0ken.com)（2026-08-29）
 - 仓库根目录加 `CNAME` 文件（内容一行：`0t0ken.com`）
 - 域名 DNS 添加四条 A 记录指向 GitHub Pages：
   `185.199.108.153` / `185.199.109.153` / `185.199.110.153` / `185.199.111.153`
